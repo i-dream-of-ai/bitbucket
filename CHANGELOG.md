@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/aashari/mcp-server-atlassian-bitbucket/compare/v1.9.1...v1.9.2) (2025-03-27)
+
+
+### Bug Fixes
+
+* trigger new release ([63b2025](https://github.com/aashari/mcp-server-atlassian-bitbucket/commit/63b2025127c509e7db2d82945717b49ea223d77d))
+
 ## [1.9.1](https://github.com/aashari/mcp-server-atlassian-bitbucket/compare/v1.9.0...v1.9.1) (2025-03-27)
 
 
