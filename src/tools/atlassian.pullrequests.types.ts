@@ -71,12 +71,13 @@ export type GetPullRequestToolArgsType = z.infer<typeof GetPullRequestToolArgs>;
 /**
  * Schema for list-pr-comments tool arguments
  */
-export const ListPullRequestCommentsToolArgs = CommonPullRequestIdentifierArgs.extend({
-	/**
-	 * Pagination parameters
-	 */
-	...CommonToolPaginationArgs.shape,
-});
+export const ListPullRequestCommentsToolArgs =
+	CommonPullRequestIdentifierArgs.extend({
+		/**
+		 * Pagination parameters
+		 */
+		...CommonToolPaginationArgs.shape,
+	});
 
 export type ListPullRequestCommentsToolArgsType = z.infer<
 	typeof ListPullRequestCommentsToolArgs
@@ -85,37 +86,38 @@ export type ListPullRequestCommentsToolArgsType = z.infer<
 /**
  * Schema for create-pr-comment tool arguments
  */
-export const CreatePullRequestCommentToolArgs = CommonPullRequestIdentifierArgs.extend({
-	/**
-	 * Comment content
-	 */
-	content: z
-		.string()
-		.min(1, 'Comment content is required')
-		.describe(
-			'The content of the comment to add to the pull request in Markdown format. Bitbucket Cloud natively accepts Markdown - supports headings, lists, code blocks, links, and other standard Markdown syntax.',
-		),
+export const CreatePullRequestCommentToolArgs =
+	CommonPullRequestIdentifierArgs.extend({
+		/**
+		 * Comment content
+		 */
+		content: z
+			.string()
+			.min(1, 'Comment content is required')
+			.describe(
+				'The content of the comment to add to the pull request in Markdown format. Bitbucket Cloud natively accepts Markdown - supports headings, lists, code blocks, links, and other standard Markdown syntax.',
+			),
 
-	/**
-	 * Optional inline location for the comment
-	 */
-	inline: z
-		.object({
-			path: z
-				.string()
-				.min(1, 'File path is required for inline comments')
-				.describe('The file path to add the comment to.'),
-			line: z
-				.number()
-				.int()
-				.positive()
-				.describe('The line number to add the comment to.'),
-		})
-		.optional()
-		.describe(
-			'Optional inline location for the comment. If provided, this will create a comment on a specific line in a file.',
-		),
-});
+		/**
+		 * Optional inline location for the comment
+		 */
+		inline: z
+			.object({
+				path: z
+					.string()
+					.min(1, 'File path is required for inline comments')
+					.describe('The file path to add the comment to.'),
+				line: z
+					.number()
+					.int()
+					.positive()
+					.describe('The line number to add the comment to.'),
+			})
+			.optional()
+			.describe(
+				'Optional inline location for the comment. If provided, this will create a comment on a specific line in a file.',
+			),
+	});
 
 export type CreatePullRequestCommentToolArgsType = z.infer<
 	typeof CreatePullRequestCommentToolArgs

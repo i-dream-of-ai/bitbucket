@@ -5,9 +5,9 @@ import { CommonToolPaginationArgs } from './common.tool.types.js';
 /**
  * Schema for list-workspaces tool arguments
  */
-export const ListWorkspacesToolArgs = CommonToolPaginationArgs.extend({}).describe(
-	'Arguments for listing Bitbucket workspaces.',
-);
+export const ListWorkspacesToolArgs = CommonToolPaginationArgs.extend(
+	{},
+).describe('Arguments for listing Bitbucket workspaces.');
 
 export type ListWorkspacesToolArgsType = z.infer<typeof ListWorkspacesToolArgs>;
 
