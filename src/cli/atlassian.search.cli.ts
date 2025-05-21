@@ -1,5 +1,4 @@
 import { Command } from 'commander';
-import { Command } from 'commander';
 import { Logger } from '../utils/logger.util.js';
 import atlassianSearchController from '../controllers/atlassian.search.controller.js';
 import { handleCliError } from '../utils/error-handler.util.js';
