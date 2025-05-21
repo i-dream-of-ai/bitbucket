@@ -1,51 +1,14 @@
 import { z } from 'zod';
-
-/**
- * Base pagination arguments for all tools
- */
-const PaginationArgs = {
-	limit: z
-		.number()
-		.int()
-		.positive()
-		.max(100)
-		.optional()
-		.describe(
-			'Maximum number of items to return (1-100). Controls the response size. Defaults to 25 if omitted.',
-		),
-
-	cursor: z
-		.string()
-		.optional()
-		.describe(
-			'Pagination cursor for retrieving the next set of results. Obtained from previous response when more results are available.',
-		),
-};
+import {
+	CommonToolPaginationArgs,
+	CommonRepoIdentifierArgs,
+	CommonPullRequestIdentifierArgs,
+} from './common.tool.types.js';
 
 /**
  * Schema for list-pull-requests tool arguments
  */
-export const ListPullRequestsToolArgs = z.object({
-	/**
-	 * Workspace slug containing the repository
-	 */
-	workspaceSlug: z
-		.string()
-		.optional()
-		.describe(
-			'Workspace slug containing the repository. If not provided, the system will use your default workspace (either configured via BITBUCKET_DEFAULT_WORKSPACE or the first workspace in your account). Example: "myteam"',
-		),
-
-	/**
-	 * Repository slug containing the pull requests
-	 */
-	repoSlug: z
-		.string()
-		.min(1, 'Repository slug is required')
-		.describe(
-			'Repository slug containing the pull requests. This must be a valid repository in the specified workspace. Example: "project-api"',
-		),
-
+export const ListPullRequestsToolArgs = CommonRepoIdentifierArgs.extend({
 	/**
 	 * Filter by pull request state
 	 */
@@ -69,7 +32,7 @@ export const ListPullRequestsToolArgs = z.object({
 	/**
 	 * Maximum number of pull requests to return (default: 50)
 	 */
-	...PaginationArgs,
+	...CommonToolPaginationArgs.shape,
 });
 
 export type ListPullRequestsToolArgsType = z.infer<
@@ -79,37 +42,7 @@ export type ListPullRequestsToolArgsType = z.infer<
 /**
  * Schema for get-pull-request tool arguments
  */
-export const GetPullRequestToolArgs = z.object({
-	/**
-	 * Workspace slug containing the repository
-	 */
-	workspaceSlug: z
-		.string()
-		.optional()
-		.describe(
-			'Workspace slug containing the repository. If not provided, the system will use your default workspace. Example: "myteam"',
-		),
-
-	/**
-	 * Repository slug containing the pull request
-	 */
-	repoSlug: z
-		.string()
-		.min(1, 'Repository slug is required')
-		.describe(
-			'Repository slug containing the pull request. This must be a valid repository in the specified workspace. Example: "project-api"',
-		),
-
-	/**
-	 * Pull request identifier
-	 */
-	prId: z
-		.string()
-		.min(1, 'Pull request ID is required')
-		.describe(
-			'Numeric ID of the pull request to retrieve as a string. Must be a valid pull request ID in the specified repository. Example: "42"',
-		),
-
+export const GetPullRequestToolArgs = CommonPullRequestIdentifierArgs.extend({
 	/**
 	 * Optional flag to request the full diff
 	 */
@@ -138,41 +71,11 @@ export type GetPullRequestToolArgsType = z.infer<typeof GetPullRequestToolArgs>;
 /**
  * Schema for list-pr-comments tool arguments
  */
-export const ListPullRequestCommentsToolArgs = z.object({
-	/**
-	 * Workspace slug containing the repository
-	 */
-	workspaceSlug: z
-		.string()
-		.optional()
-		.describe(
-			'Workspace slug containing the repository. If not provided, the system will use your default workspace. Example: "myteam"',
-		),
-
-	/**
-	 * Repository slug containing the pull request
-	 */
-	repoSlug: z
-		.string()
-		.min(1, 'Repository slug is required')
-		.describe(
-			'Repository slug containing the pull request. This must be a valid repository in the specified workspace. Example: "project-api"',
-		),
-
-	/**
-	 * Pull request identifier
-	 */
-	prId: z
-		.string()
-		.min(1, 'Pull request ID is required')
-		.describe(
-			'Numeric ID of the pull request to retrieve comments from as a string. Must be a valid pull request ID in the specified repository. Example: "42"',
-		),
-
+export const ListPullRequestCommentsToolArgs = CommonPullRequestIdentifierArgs.extend({
 	/**
 	 * Pagination parameters
 	 */
-	...PaginationArgs,
+	...CommonToolPaginationArgs.shape,
 });
 
 export type ListPullRequestCommentsToolArgsType = z.infer<
@@ -182,37 +85,7 @@ export type ListPullRequestCommentsToolArgsType = z.infer<
 /**
  * Schema for create-pr-comment tool arguments
  */
-export const CreatePullRequestCommentToolArgs = z.object({
-	/**
-	 * Workspace slug containing the repository
-	 */
-	workspaceSlug: z
-		.string()
-		.optional()
-		.describe(
-			'Workspace slug containing the repository. If not provided, the system will use your default workspace. Example: "myteam"',
-		),
-
-	/**
-	 * Repository slug containing the pull request
-	 */
-	repoSlug: z
-		.string()
-		.min(1, 'Repository slug is required')
-		.describe(
-			'Repository slug containing the pull request. This must be a valid repository in the specified workspace. Example: "project-api"',
-		),
-
-	/**
-	 * Pull request identifier
-	 */
-	prId: z
-		.string()
-		.min(1, 'Pull request ID is required')
-		.describe(
-			'Numeric ID of the pull request to add a comment to as a string. Must be a valid pull request ID in the specified repository. Example: "42"',
-		),
-
+export const CreatePullRequestCommentToolArgs = CommonPullRequestIdentifierArgs.extend({
 	/**
 	 * Comment content
 	 */
@@ -251,27 +124,7 @@ export type CreatePullRequestCommentToolArgsType = z.infer<
 /**
  * Arguments schema for the pull_requests_create tool
  */
-export const CreatePullRequestToolArgs = z.object({
-	/**
-	 * Workspace slug containing the repository
-	 */
-	workspaceSlug: z
-		.string()
-		.optional()
-		.describe(
-			'Workspace slug containing the repository. If not provided, the system will use your default workspace. Example: "myteam"',
-		),
-
-	/**
-	 * Repository slug to create the pull request in
-	 */
-	repoSlug: z
-		.string()
-		.min(1, 'Repository slug is required')
-		.describe(
-			'Repository slug to create the pull request in. This must be a valid repository in the specified workspace. Example: "project-api"',
-		),
-
+export const CreatePullRequestToolArgs = CommonRepoIdentifierArgs.extend({
 	/**
 	 * Title of the pull request
 	 */
